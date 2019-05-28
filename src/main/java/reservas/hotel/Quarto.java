@@ -11,7 +11,8 @@ public class Quarto {
     private float preco;
     private int numLeito;
     private int numQuarto;
-
+    @ManyToOne
+    Hotel hotel;
     public Quarto() {}
 
     public Quarto(boolean ocupado, float preco, int numLeito,int numQuarto){

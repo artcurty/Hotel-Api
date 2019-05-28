@@ -11,12 +11,16 @@ public class Cliente {
     private int idade;
     private String sexo;
 
+    @ManyToOne
+    private Quarto quarto;
+
     public Cliente(){}
 
-    public Cliente(String nome, String sexo, int idade) {
+    public Cliente(String nome, String sexo, int idade, Quarto quarto) {
         this.nome = nome;
         this.sexo = sexo;
         this.idade = idade;
+        this.quarto = quarto;
     }
 
     public Long getId() {
@@ -49,5 +53,13 @@ public class Cliente {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public Quarto getQuarto() {
+        return quarto;
+    }
+
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
     }
 }
