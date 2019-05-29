@@ -1,20 +1,5 @@
 package reservas.hotel;
 
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-public class HotelController {
-
-
 import org.hibernate.ResourceClosedException;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -29,14 +14,15 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-
-    @RestController
-    public class CompanhiaController {
+@RestController
+public class HotelController {
 
         private final HotelRepository hRepository;
+        private final HotelResourceAssembler hAssembler;
 
-        CompanhiaController(HotelRepository hRepository){
+        HotelController(HotelRepository hRepository, HotelResourceAssembler hAssembler){
             this.hRepository = hRepository;
+            this.hAssembler = hAssembler;
         }
 
         @GetMapping(value = "/hoteis",produces = "application/json; charset=UTF-8")
@@ -47,9 +33,15 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
                             linkTo(methodOn(HotelController.class).one(hotel.getId())).withSelfRel(),
                             linkTo(methodOn(HotelController.class).AllHoteis()).withRel("Hoteis"))).collect(Collectors.toList());
 
-            return new Resources<>(hoteis,linkTo(methodOn(CompanhiaController.class).AllHoteis()).withSelfRel());
-
+            return new Resources<>(hoteis,linkTo(methodOn(HotelController.class).AllHoteis()).withSelfRel());
         }
 
-    }
+        @GetMapping(value = "/hoteis/{id_hotel}",produces = "application/json; charset=UTF-8")
+        public Resource<Hotel> one(@PathVariable Long id_hotel){
+
+            Hotel hoteis = hRepository.findById(id_hotel).orElseThrow(()-> new HotelNotFoundException(id_hotel));
+
+            return hAssembler.toResource(hoteis);
+
+        }
 }
