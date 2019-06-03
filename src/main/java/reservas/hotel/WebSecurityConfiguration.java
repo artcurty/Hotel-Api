@@ -13,7 +13,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/**").permitAll();
-        //httpSecurity.requestMatchers().antMatchers("/hotels").permitAll();
+        //httpSecurity.requestMatchers().antMatchers("/hoteis").permitAll();
 
     }
 }
