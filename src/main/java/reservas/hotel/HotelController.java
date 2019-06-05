@@ -24,7 +24,7 @@ public class HotelController {
             this.hRepository = hRepository;
             this.hAssembler = hAssembler;
         }
-
+        @CrossOrigin(origins = "http://localhost:3000")
         @GetMapping(value = "/hoteis",produces = "application/json; charset=UTF-8")
         public Resources<Resource<Hotel>> AllHoteis(){
 
@@ -44,4 +44,5 @@ public class HotelController {
             return hAssembler.toResource(hoteis);
 
         }
+
 }
